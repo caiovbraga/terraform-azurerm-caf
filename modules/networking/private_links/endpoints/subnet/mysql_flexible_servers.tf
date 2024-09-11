@@ -1,4 +1,4 @@
-module "mysql_flexible_servers" {
+module "mysql_flexible_server" {
   source = "../private_endpoint"
   for_each = {
     for key, value in try(var.private_endpoints.mysql_flexible_server, {}) : key => value
@@ -16,7 +16,7 @@ module "mysql_flexible_servers" {
   subnet_id           = var.subnet_id
   subresource_names   = ["mysqlServer"]
 }
-module "mysql_flexible_servers_remote" {
+module "mysql_flexible_server_remote" {
   source = "../private_endpoint"
   for_each = {
     for key, value in try(var.private_endpoints.mysql_flexible_server, {}) : key => value
