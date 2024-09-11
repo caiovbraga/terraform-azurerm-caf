@@ -1,7 +1,7 @@
 module "mysql_flexible_servers" {
   source = "../private_endpoint"
   for_each = {
-    for key, value in try(var.private_endpoints.mysql_flexible_servers, {}) : key => value
+    for key, value in try(var.private_endpoints.mysql_flexible_server, {}) : key => value
     if can(value.lz_key) == false
   }
   base_tags           = var.base_tags
@@ -19,7 +19,7 @@ module "mysql_flexible_servers" {
 module "mysql_flexible_servers_remote" {
   source = "../private_endpoint"
   for_each = {
-    for key, value in try(var.private_endpoints.mysql_flexible_servers, {}) : key => value
+    for key, value in try(var.private_endpoints.mysql_flexible_server, {}) : key => value
     if can(value.lz_key)
   }
   base_tags           = var.base_tags
