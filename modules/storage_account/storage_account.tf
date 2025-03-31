@@ -180,8 +180,8 @@ resource "azurerm_storage_account" "stg" {
         for_each = lookup(var.storage_account.network, "private_link_access", false) == false ? [] : [1]
 
         content {
-          endpoint_resource_id = var.storage_account.network.private_link_access.endpoint_resource_id
-          endpoint_tenant_id   = try(var.storage_account.network.private_link_access.endpoint_tenant_id, null)
+          endpoint_resource_id = each.value.endpoint_resource_id
+          endpoint_tenant_id   = try(each.value.endpoint_tenant_id, null)
         }
       }
     }
