@@ -177,11 +177,12 @@ resource "azurerm_storage_account" "stg" {
         for key, value in var.storage_account.network.subnets : can(value.remote_subnet_id) ? value.remote_subnet_id : var.vnets[try(value.lz_key, var.client_config.landingzone_key)][value.vnet_key].subnets[value.subnet_key].id
       ]
       dynamic "private_link_access" {
-        for_each = lookup(var.storage_account.network, "private_link_access", false) == false ? [] : [1]
+        iterator = private_link_access
+        for_each = lookup(var.storage_account.network, "private_link_access", null) == null ? {} : var.storage_account.network.private_link_access
 
         content {
-          endpoint_resource_id = each.value.endpoint_resource_id
-          endpoint_tenant_id   = try(each.value.endpoint_tenant_id, null)
+          endpoint_resource_id = private_link_access.value.endpoint_resource_id
+          endpoint_tenant_id   = try(private_link_access.value.endpoint_tenant_id, null)
         }
       }
     }
